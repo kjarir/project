@@ -16,11 +16,11 @@ export const getCurrentUser = async (): Promise<User | null> => {
   if (!session?.user) return null
 
   return {
-    id: session.user.id,
-    name: session.user.name || '',
-    email: session.user.email || '',
-    image: session.user.image,
-    accessToken: session.user.accessToken,
+    id: (session.user as any).id,
+    name: (session.user as any).name || '',
+    email: (session.user as any).email || '',
+    image: (session.user as any).image,
+    accessToken: (session.user as any).accessToken,
   }
 }
 

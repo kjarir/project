@@ -173,7 +173,7 @@ export default function ConnectPage() {
                         <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                           <span>⭐ {selectedRepo.stargazersCount} stars</span>
                           <span>🍴 {selectedRepo.forksCount} forks</span>
-                          <span>Updated {new Date(selectedRepo.updatedAt).toLocaleDateString()}</span>
+                          <span>Updated {new Date(selectedRepo.updatedAt ?? '').toLocaleDateString()}</span>
                         </div>
                       </div>
                     </div>

@@ -19,8 +19,8 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (session?.user?.id) {
-          const sites = await getUserDocSites(session.user.id)
+        if (session?.user && (session.user as any).id) {
+          const sites = await getUserDocSites((session.user as any).id)
           setDocSites(sites)
         }
       } catch (error) {
