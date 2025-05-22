@@ -30,10 +30,19 @@ export async function GET(request: Request) {
 
     return NextResponse.json(content)
   } catch (error) {
+    // Log error for debugging
+    console.error('API /api/repo error:', error)
     if (error instanceof GitHubError) {
       return NextResponse.json(
         { error: error.message },
         { status: error.status || 500 }
+      )
+    }
+    // Return error details in development
+    if (process.env.NODE_ENV !== 'production') {
+      return NextResponse.json(
+        { error: error?.message || 'Internal server error', stack: error?.stack },
+        { status: 500 }
       )
     }
     return NextResponse.json(
