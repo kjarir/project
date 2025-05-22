@@ -41,7 +41,7 @@ export async function GET(request: Request) {
     // Return error details in development
     if (process.env.NODE_ENV !== 'production') {
       return NextResponse.json(
-        { error: error?.message || 'Internal server error', stack: error?.stack },
+        { error: (error as any)?.message || 'Internal server error', stack: (error as any)?.stack },
         { status: 500 }
       )
     }

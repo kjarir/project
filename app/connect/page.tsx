@@ -29,8 +29,8 @@ export default function ConnectPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (session?.user?.accessToken) {
-          const repos = await getUserRepositories(session.user.accessToken)
+        if (session?.user && (session.user as any).accessToken) {
+          const repos = await getUserRepositories((session.user as any).accessToken)
           setRepositories(repos)
         }
       } catch (error) {
@@ -64,7 +64,7 @@ export default function ConnectPage() {
     setIsCreating(true)
     try {
       await createDocSite(
-        session.user.id,
+        (session.user as any).id,
         selectedRepo.id,
         selectedRepo.name,
         selectedRepo.owner.login,
