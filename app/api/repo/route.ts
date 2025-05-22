@@ -5,7 +5,7 @@ import { getRepositoryContent, getRepositoryReadme, GitHubError } from '@/lib/gi
 export async function GET(request: Request) {
   try {
     const session = await getServerSession()
-    if (!session?.user?.accessToken) {
+    if (!(session?.user && (session.user as any).accessToken)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     }
 
     const content = await getRepositoryContent(
-      session.user.accessToken as string,
+      (session.user as any).accessToken as string,
       owner,
       repo,
       path
