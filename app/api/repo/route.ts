@@ -1,0 +1,44 @@
+import { NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { getRepositoryContent, getRepositoryReadme, GitHubError } from '@/lib/github'
+
+export async function GET(request: Request) {
+  try {
+    const session = await getServerSession()
+    if (!session?.user?.accessToken) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const owner = searchParams.get('owner')
+    const repo = searchParams.get('repo')
+    const path = searchParams.get('path') || ''
+
+    if (!owner || !repo) {
+      return NextResponse.json(
+        { error: 'Missing required parameters' },
+        { status: 400 }
+      )
+    }
+
+    const content = await getRepositoryContent(
+      session.user.accessToken as string,
+      owner,
+      repo,
+      path
+    )
+
+    return NextResponse.json(content)
+  } catch (error) {
+    if (error instanceof GitHubError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status || 500 }
+      )
+    }
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+} 
