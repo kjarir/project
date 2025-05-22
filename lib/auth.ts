@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import { signOut as nextAuthSignOut } from 'next-auth/react'
 
 export interface User {
