@@ -57,7 +57,7 @@ export default function ConnectPage() {
     repo.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const safeRepositories = Array.from(repositories ?? [])
+  const safeRepositories = repositories || []
 
   const handleCreateSite = async () => {
     if (!session?.user || !selectedRepo || !siteName) return
